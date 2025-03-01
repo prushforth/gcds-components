@@ -1,3 +1,5 @@
+import type { MapMLViewerElement } from '../../../gcds-map';
+
 const LAYER_OPTIONS = [
   ['/dist/gcds/gcds-map/mapml/en/cbmtile/toporama', 'Toporama'],
   ['/dist/gcds/gcds-map/mapml/en/cbmtile/cbmt', 'Canada Base Map - Transportation'],
@@ -484,4 +486,59 @@ InlineVsRemote.args = {
   controls: true,
   layer: '/dist/gcds/gcds-map/mapml/en/osmtile/cbmt',
   caption: "A map with remote and inline MapML content layers"
+};
+
+export const CustomProjection = (args) => {
+  const viewer = document.querySelector('mapml-viewer')  as MapMLViewerElement; 
+  viewer.defineCustomProjection(`{ "projection": "EPSG3573", "proj4string" : "+proj=laea +lat_0=90 +lon_0=-100 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",  "origin" : [-4889334.802955,4889334.802955], "resolutions" : [38197.92815,19098.96407,9549.482037,4774.741019,2387.370509,1193.685255,596.8426273,298.4213137,149.2106568,74.60532841,37.30266421], "bounds" : [[-4594983,4507258],[4655569,-4562485]], "tilesize" : 256 }`);
+  return `
+    <mapml-viewer lat="${args.lat}" lon="${args.lon}" zoom="${args.zoom}" lang="${args.lang}" projection="${args.projection}"${args.controls ? ' controls' : ''}${args.static ? ' static' : ''}${args.controlslist.length > 0  ? ` controlslist="${args.controlslist.join(' ')}"` : ''}>
+
+  <map-caption>${args.caption}</map-caption>
+
+  <map-layer src="${args.layer}" ${`checked`}></map-layer>
+
+</mapml-viewer>
+  `;
+};
+
+CustomProjection.args = {
+  lat: 65,
+  lon: -93,
+  zoom: 1,
+  projection: 'EPSG3573',
+  controls: true,
+  static: false,
+  lang: 'en',
+  controlslist: ['geolocation'],
+  layer: '/dist/gcds/gcds-map/mapml/en/custom/arcticsdi.mapml',
+  caption: 'A map in a custom-defined projection'
+};
+
+CustomProjection.parameters = {
+  docs: {
+    source: {
+      type: 'code',
+      language: 'html',
+      code: `<script type="module">
+  const viewer = document.querySelector('mapml-viewer');
+  viewer.defineCustomProjection(\`{ 
+    "projection": "EPSG3573",
+    "proj4string" : "+proj=laea +lat_0=90 +lon_0=-100 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",  
+    "origin" : [-4889334.802955,4889334.802955], 
+    "resolutions" : [38197.92815,19098.96407,9549.482037,4774.741019,2387.370509,1193.685255,596.8426273,298.4213137,149.2106568,74.60532841,37.30266421],
+    "bounds" : [[-4594983,4507258],[4655569,-4562485]], 
+    "tilesize" : 256 }
+  \`);
+</script>
+
+<mapml-viewer projection="${CustomProjection.args.projection}" lat="${CustomProjection.args.lat}" lon="${CustomProjection.args.lon}" zoom="${CustomProjection.args.zoom}" lang="${CustomProjection.args.lang}" ${CustomProjection.args.controls ? ' controls' : ''}${CustomProjection.args.static ? ' static' : ''}${CustomProjection.args.controlslist.length > 0  ? ` controlslist="${CustomProjection.args.controlslist.join(' ')}"` : ''}>
+
+  <map-caption>${CustomProjection.args.caption}</map-caption>
+
+  <map-layer src="${CustomProjection.args.layer}" checked></map-layer>
+  
+</mapml-viewer>`
+    }
+  }
 };
