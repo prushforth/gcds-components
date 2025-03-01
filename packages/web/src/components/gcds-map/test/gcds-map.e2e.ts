@@ -16,7 +16,7 @@ describe('gcds-map E2E', () => {
     });
     await page.setContent(
 `<mapml-viewer width="400" height="400" lat="0" lon="0" zoom="0" projection="OSMTILE" controls>
-    <map-layer src="/dist/gcds/gcds-map/mapml/en/osmtile/cbmt/" checked hidden></map-layer>
+    <map-layer src="/dist/gcds/gcds-map/assets/mapml/en/osmtile/cbmt/" checked hidden></map-layer>
  </mapml-viewer>`);
 
     const map = await page.find('mapml-viewer');
