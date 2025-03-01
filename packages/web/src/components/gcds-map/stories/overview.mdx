@@ -68,6 +68,15 @@ MapML user guide for more information on [styling](https://maps4html.org/web-map
 
 <Canvas of={Map.DarkMode} story={{ inline: true }} />
 
+### Inline vs Remote MapML content
+
+The [ `<map-layer>` element](https://maps4html.org/web-map-doc/docs/elements/layer/) can contain HTML-flavoured MapML custom elements between
+the opening and closing tags, called "inline" content, or it can refer to XML-flavoured
+xhtml custom element markup via a `src="url"` (but not both).  It can be a bit tricky if you
+copy content between different contexts as such, since the parsing of these two
+flavours of markup requires a different approach.
+
+<Canvas of={Map.InlineVsRemote} story={{ inline: true }} />
 
 ## Resources
 

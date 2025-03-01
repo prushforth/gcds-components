@@ -448,3 +448,40 @@ DarkMode.args = {
   controlslist: ['geolocation'],
   caption: "OpenStreetMap in pmtiles archive format, demonstrating light and dark mode maps"
 };
+
+export const InlineVsRemote = (args) => {
+  return `
+    <mapml-viewer lat="${args.lat}" lon="${args.lon}" zoom="${args.zoom}" projection="${args.projection}"${args.controls ? ' controls' : ''}>
+
+  <map-caption>${args.caption}</map-caption>
+
+  <map-layer label="Remote layer content - XHTML markup rules" src="${args.layer}" checked hidden></map-layer>
+
+  <map-layer label="map-title takes precedence" checked>
+    <map-title>Inline layer content - HTML markup rules</map-title>
+    <map-meta name="projection" content="OSMTILE"></map-meta>
+    <map-feature zoom="15">
+      <map-featurecaption>The Man With Two Hats</map-featurecaption>
+      <map-properties>
+        <h2><a href="https://www.veterans.gc.ca/en/remembrance/memorials/national-inventory-canadian-memorials/details/9304">The Man With Two Hats</a></h2>
+      </map-properties>
+      <map-geometry>
+        <map-point>
+          <map-coordinates>-75.705278 45.397778</map-coordinates>
+        </map-point>
+      </map-geometry>
+    </map-feature>
+  </map-layer>
+
+</mapml-viewer>
+  `;
+};
+InlineVsRemote.args = {
+  lat: 53.087426, 
+  lon: -91.275330,
+  zoom: 4,
+  projection: 'OSMTILE',
+  controls: true,
+  layer: '/dist/gcds/gcds-map/mapml/en/osmtile/cbmt',
+  caption: "A map with remote and inline MapML content layers"
+};
